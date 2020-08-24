@@ -1,0 +1,14 @@
+{
+  "name": "TrekAPI",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "https://github.com/AnasMeshal/TrekAPI.git",
+  "author": "Sarah <S00038939@auk.edu.kw>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "nodemon app.js"
+  }
+}
