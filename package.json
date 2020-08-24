@@ -6,10 +6,13 @@
   "author": "Sarah <S00038939@auk.edu.kw>",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "pg": "^8.3.2",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^6.3.4"
+    "sequelize": "^6.3.4",
+    "sequelize-slugify": "^0.9.1"
   },
   "scripts": {
     "start": "nodemon app.js"
