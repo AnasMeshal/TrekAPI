@@ -6,6 +6,7 @@ const db = new Sequelize({
   database: "TrekDB",
   dialect: "postgres",
   host: "localhost",
+  logging: false,
 });
 
 module.exports = db;
