@@ -8,11 +8,20 @@ User.init(
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: {
+        args: true,
+        msg: "This username already exists",
+      },
+      validate: { notEmpty: true }, // doesn't allow empty string
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    // role: {
+    //   type: DataTypes.STRING,
+    //   defaultValue: "customer",
+    // },
     firstName: {
       type: DataTypes.STRING,
     },
