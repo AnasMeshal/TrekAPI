@@ -4,6 +4,12 @@ const db = require("./db/db");
 
 const app = express();
 
+//Routes
+const userRoutes = require("./routes/users");
+
+//Routers
+app.use(userRoutes);
+
 const run = async () => {
   try {
     await db.authenticate();
