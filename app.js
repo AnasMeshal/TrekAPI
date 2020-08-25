@@ -1,12 +1,11 @@
 const express = require("express");
 
-//Database 
+//Database
 const db = require("./db");
 
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-
 
 //Routes
 const userRoutes = require("./routes/users");
@@ -15,11 +14,13 @@ const tripRoutes = require("./routes/trips");
 
 const app = express();
 
-//Routers
 app.use(cors());
 app.use(bodyParser.json());
+
+//Routers
 app.use(userRoutes);
 app.use("/trips", tripRoutes);
+
 app.use(passport.initialize());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
@@ -36,7 +37,6 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.json(err.message || "Internal Server Error");
 });
-
 
 const run = async () => {
   try {
