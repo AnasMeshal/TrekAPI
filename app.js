@@ -2,18 +2,20 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
+
+//Routes
+const userRoutes = require("./routes/users");
+const tripRoutes = require("./routes/trips");
+
 //Database
 const db = require("./db");
 
-//Routes
-const tripRoutes = require("./routes/trips");
-
 const app = express();
 
+//Routers
 app.use(cors());
 app.use(bodyParser.json());
-
-//Routers
+app.use(userRoutes);
 app.use("/trips", tripRoutes);
 
 const run = async () => {
