@@ -28,7 +28,7 @@ exports.jwtStrategy = new JWTStrategy(
     secretOrKey: JWT_SECRET,
   },
   async (jwtPayload, done) => {
-    //TODO: check if token is expired
+    //TODO: check if token is expired // REVIEW: copy paste?
     if (Date.now() > jwtPayload.exp) {
       return done(null, false); // this will throw a 401
     }

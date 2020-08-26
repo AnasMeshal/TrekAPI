@@ -19,6 +19,7 @@ User.init(
       allowNull: false,
       validate: { notEmpty: true },
     },
+    // REVIEW: Do you need a role?
     // role: {
     //   type: DataTypes.STRING,
     //   defaultValue: "customer",

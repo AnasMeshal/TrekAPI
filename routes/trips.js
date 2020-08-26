@@ -23,6 +23,8 @@ router.param("tripId", async (req, res, next, tripId) => {
   }
 });
 
+// REVIEW: you're not using the JWT strategy. Please return the create, update and delete cards in trello to `Doing` until permissions are done
+
 //List
 router.get("/", tripList);
 
