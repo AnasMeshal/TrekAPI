@@ -5,7 +5,7 @@ const { fromAuthHeaderAsBearerToken } = require("passport-jwt").ExtractJwt;
 
 //Models
 const { User } = require("../db/models");
-const { JWT_SECRET } = require("../controllers/config/keys");
+const { JWT_SECRET } = require("../config/keys");
 
 exports.localStrategy = new LocalStrategy(async (username, password, done) => {
   try {
@@ -28,7 +28,7 @@ exports.jwtStrategy = new JWTStrategy(
     secretOrKey: JWT_SECRET,
   },
   async (jwtPayload, done) => {
-    //TODO: check if token is expired // REVIEW: copy paste?
+    //check if token is expired
     if (Date.now() > jwtPayload.exp) {
       return done(null, false); // this will throw a 401
     }
