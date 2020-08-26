@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 //Error Handling Middleware
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
-  res.json(err.message || "Internal Server Error");
+  res.json({ message: err.message || "Internal Server Error" });
 });
 
 const run = async () => {

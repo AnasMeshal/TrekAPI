@@ -17,6 +17,7 @@ User.init(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: { notEmpty: true },
     },
     // role: {
     //   type: DataTypes.STRING,
@@ -24,12 +25,19 @@ User.init(
     // },
     firstName: {
       type: DataTypes.STRING,
+      validate: { notEmpty: true },
     },
     lastName: {
       type: DataTypes.STRING,
+      validate: { notEmpty: true },
     },
     email: {
       type: DataTypes.STRING,
+      unique: {
+        args: true,
+        msg: "This email already exists",
+      },
+      validate: { isEmail: true },
     },
   },
   {
