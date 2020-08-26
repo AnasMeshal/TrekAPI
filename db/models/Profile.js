@@ -9,7 +9,7 @@ Profile.init(
       type: DataTypes.STRING,
       validate: { notEmpty: true },
     },
-    description: {
+    bio: {
       type: DataTypes.STRING,
       validate: { notEmpty: true },
     },
