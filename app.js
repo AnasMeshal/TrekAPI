@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 app.use(userRoutes);
 app.use("/trips", tripRoutes);
 
+// REVIEW: Passport must be above your routers.
 app.use(passport.initialize());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
