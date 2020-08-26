@@ -11,6 +11,7 @@ const passport = require("passport");
 const userRoutes = require("./routes/users");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const tripRoutes = require("./routes/trips");
+const profileRoutes = require("./routes/profiles");
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(bodyParser.json());
 //Routers
 app.use(userRoutes);
 app.use("/trips", tripRoutes);
+app.use("/profiles", profileRoutes);
 
 app.use(passport.initialize());
 passport.use(localStrategy);
