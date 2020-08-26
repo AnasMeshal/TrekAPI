@@ -15,6 +15,10 @@ const profileRoutes = require("./routes/profiles");
 
 const app = express();
 
+app.use(passport.initialize());
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -22,11 +26,6 @@ app.use(bodyParser.json());
 app.use(userRoutes);
 app.use("/trips", tripRoutes);
 app.use("/profiles", profileRoutes);
-
-// REVIEW: Passport must be above your routers.
-app.use(passport.initialize());
-passport.use(localStrategy);
-passport.use(jwtStrategy);
 
 //Not Found Paths
 app.use((req, res, next) => {
