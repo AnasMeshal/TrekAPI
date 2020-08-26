@@ -26,9 +26,6 @@ router.param("tripId", async (req, res, next, tripId) => {
 //List
 router.get("/", tripList);
 
-//Create
-router.post("/", tripCreate);
-
 //Update
 router.put("/:tripId", tripUpdate);
 
