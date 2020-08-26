@@ -4,7 +4,16 @@ const db = require("../db");
 class Profile extends Model {}
 
 Profile.init(
-  {},
+  {
+    image: {
+      type: DataTypes.STRING,
+      validate: { notEmpty: true },
+    },
+    description: {
+      type: DataTypes.STRING,
+      validate: { notEmpty: true },
+    },
+  },
   {
     sequelize: db,
   }
