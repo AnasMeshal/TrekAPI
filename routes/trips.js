@@ -1,4 +1,6 @@
 const express = require("express");
+const passport = require("passport");
+
 //Controllers
 const {
   tripList,
@@ -23,15 +25,21 @@ router.param("tripId", async (req, res, next, tripId) => {
   }
 });
 
-// REVIEW: you're not using the JWT strategy. Please return the create, update and delete cards in trello to `Doing` until permissions are done
-
 //List
 router.get("/", tripList);
 
 //Update
-router.put("/:tripId", tripUpdate);
+router.put(
+  "/:tripId",
+  passport.authenticate("jwt", { session: false }),
+  tripUpdate
+);
 
 //Delete
-router.delete("/:tripId", tripDelete);
+router.delete(
+  "/:tripId",
+  passport.authenticate("jwt", { session: false }),
+  tripDelete
+);
 
 module.exports = router;
