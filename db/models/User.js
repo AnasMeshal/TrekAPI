@@ -33,6 +33,10 @@ User.init(
     },
     email: {
       type: DataTypes.STRING,
+      unique: {
+        args: true,
+        msg: "This email already exists",
+      },
       validate: { isEmail: true },
     },
   },
