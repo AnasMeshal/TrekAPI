@@ -3,7 +3,12 @@ const router = express.Router();
 const passport = require("passport");
 
 //Controller
-const { profileUpdate } = require("../controllers/profileController");
+const {
+  fetchProfile,
+  profileUpdate,
+} = require("../controllers/profileController");
+
+router.get("/", passport.authenticate("jwt", { session: false }), fetchProfile);
 
 router.put(
   "/",
