@@ -7,25 +7,33 @@ User.init(
   {
     username: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: { args: false, msg: "Your username must not be empty" },
       unique: {
         args: true,
         msg: "This username already exists",
       },
-      validate: { notEmpty: true }, // doesn't allow empty string
+      validate: {
+        notEmpty: { args: true, msg: "Your username must not be empty" },
+      }, // doesn't allow empty string
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: { notEmpty: true },
+      allowNull: { args: false, msg: "Your password must not be empty" },
+      validate: {
+        notEmpty: { args: true, msg: "Your password must not be empty" },
+      },
     },
     firstName: {
       type: DataTypes.STRING,
-      validate: { notEmpty: true },
+      validate: {
+        notEmpty: { args: true, msg: "Your first name must not be empty" },
+      },
     },
     lastName: {
       type: DataTypes.STRING,
-      validate: { notEmpty: true },
+      validate: {
+        notEmpty: { args: true, msg: "Your last name must not be empty" },
+      },
     },
     email: {
       type: DataTypes.STRING,
@@ -33,7 +41,9 @@ User.init(
         args: true,
         msg: "This email already exists",
       },
-      validate: { isEmail: true },
+      validate: {
+        isEmail: { args: true, msg: "Your email must not be empty" },
+      },
     },
   },
   {
