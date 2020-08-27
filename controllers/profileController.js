@@ -1,5 +1,16 @@
 //Data
-const { Profile, Trip, User } = require("../db/models");
+const { Profile } = require("../db/models");
+
+exports.fetchProfile = async (req, res, next) => {
+  try {
+    const foundProfile = await Profile.findOne({
+      where: { userId: req.user.id },
+    });
+    res.json(foundProfile);
+  } catch (error) {
+    next(error);
+  }
+};
 
 exports.profileUpdate = async (req, res, next) => {
   try {
