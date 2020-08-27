@@ -1,5 +1,5 @@
 //Data
-const { Trip, Profile } = require("../db/models");
+const { Trip, User } = require("../db/models");
 
 exports.fetchTrip = async (tripId, next) => {
   try {
@@ -14,11 +14,6 @@ exports.tripList = async (req, res, next) => {
   try {
     const trips = await Trip.findAll({
       attributes: { exclude: ["createdAt", "updatedAt"] },
-      include: {
-        model: Profile,
-        as: "profile",
-        attributes: ["userId"],
-      },
     });
     res.json(trips);
   } catch (error) {
@@ -28,13 +23,11 @@ exports.tripList = async (req, res, next) => {
 
 exports.tripCreate = async (req, res, next) => {
   try {
-    const foundProfile = await Profile.findOne({
-      where: { userId: req.user.id },
-    });
-    if (req.user.id === foundProfile.userId) {
-      req.body.profileId = foundProfile.id;
+    const foundUser = await User.findByPk(req.user.id);
+    if (req.user.id === foundUser.id) {
+      req.body.userId = foundUser.id;
       const newTrip = await Trip.create(req.body, {
-        profileId: req.body.profileId,
+        userId: req.body.userId,
       });
       res.status(201).json(newTrip);
     } else {
@@ -49,8 +42,8 @@ exports.tripCreate = async (req, res, next) => {
 
 exports.tripUpdate = async (req, res, next) => {
   try {
-    const foundProfile = await Profile.findByPk(req.trip.profileId);
-    if (req.user.id === foundProfile.userId) {
+    const foundUser = await User.findByPk(req.trip.userId);
+    if (req.user.id === foundUser.id) {
       await req.trip.update(req.body);
       res.status(204).end();
     } else {
@@ -65,8 +58,8 @@ exports.tripUpdate = async (req, res, next) => {
 
 exports.tripDelete = async (req, res, next) => {
   try {
-    const foundProfile = await Profile.findByPk(req.trip.profileId);
-    if (req.user.id === foundProfile.userId) {
+    const foundUser = await User.findByPk(req.trip.userId);
+    if (req.user.id === foundUser.id) {
       await req.trip.destroy();
       res.status(204).end();
     } else {
