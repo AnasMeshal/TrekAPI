@@ -26,6 +26,27 @@ exports.tripList = async (req, res, next) => {
   }
 };
 
+exports.tripCreate = async (req, res, next) => {
+  try {
+    const foundProfile = await Profile.findOne({
+      where: { userId: req.user.id },
+    });
+    if (req.user.id === foundProfile.userId) {
+      req.body.profileId = foundProfile.id;
+      const newTrip = await Trip.create(req.body, {
+        profileId: req.body.profileId,
+      });
+      res.status(201).json(newTrip);
+    } else {
+      const error = new Error("Unauthorized");
+      error.status = 401;
+      next(error);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.tripUpdate = async (req, res, next) => {
   try {
     const foundProfile = await Profile.findByPk(req.trip.profileId);
@@ -44,7 +65,8 @@ exports.tripUpdate = async (req, res, next) => {
 
 exports.tripDelete = async (req, res, next) => {
   try {
-    if (req.user.id === req.trip.profile.userId) {
+    const foundProfile = await Profile.findByPk(req.trip.profileId);
+    if (req.user.id === foundProfile.userId) {
       await req.trip.destroy();
       res.status(204).end();
     } else {

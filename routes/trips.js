@@ -28,6 +28,9 @@ router.param("tripId", async (req, res, next, tripId) => {
 //List
 router.get("/", tripList);
 
+//Create
+router.post("/", passport.authenticate("jwt", { session: false }), tripCreate);
+
 //Update
 router.put(
   "/:tripId",

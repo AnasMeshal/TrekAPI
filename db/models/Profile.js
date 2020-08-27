@@ -7,11 +7,9 @@ Profile.init(
   {
     image: {
       type: DataTypes.STRING,
-      validate: { notEmpty: true },
     },
     bio: {
       type: DataTypes.STRING,
-      validate: { notEmpty: true },
     },
   },
   {

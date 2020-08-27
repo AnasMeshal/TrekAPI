@@ -8,7 +8,9 @@ Trip.init(
     title: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: { notEmpty: true },
+      validate: {
+        notEmpty: { args: true, msg: "Your title must not be empty" },
+      },
     },
     image: {
       type: DataTypes.STRING,
