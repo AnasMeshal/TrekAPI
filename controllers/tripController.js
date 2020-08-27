@@ -31,8 +31,10 @@ exports.tripCreate = async (req, res, next) => {
     const foundProfile = await Profile.findOne({
       where: { userId: req.user.id },
     });
+    // REVIEW: This if condition is very weird. `findByPk` will obviously fetch the profile with this ID. What you need to check is if `foundProfile` exists. That's it
     if (req.user.id === foundProfile.userId) {
       req.body.profileId = foundProfile.id;
+      // REVIEW: You're passing `create` two objects, it should be one object only
       const newTrip = await Trip.create(req.body, {
         profileId: req.body.profileId,
       });
@@ -50,6 +52,7 @@ exports.tripCreate = async (req, res, next) => {
 exports.tripUpdate = async (req, res, next) => {
   try {
     const foundProfile = await Profile.findByPk(req.trip.profileId);
+    // REVIEW: This if condition is very weird. `findByPk` will obviously fetch the profile with this ID. What you need to check is if `foundProfile` exists. That's it
     if (req.user.id === foundProfile.userId) {
       await req.trip.update(req.body);
       res.status(204).end();
@@ -66,6 +69,7 @@ exports.tripUpdate = async (req, res, next) => {
 exports.tripDelete = async (req, res, next) => {
   try {
     const foundProfile = await Profile.findByPk(req.trip.profileId);
+    // REVIEW: This if condition is very weird. `findByPk` will obviously fetch the profile with this ID. What you need to check is if `foundProfile` exists. That's it
     if (req.user.id === foundProfile.userId) {
       await req.trip.destroy();
       res.status(204).end();
