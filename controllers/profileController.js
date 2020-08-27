@@ -1,15 +1,6 @@
 //Data
 const { Profile, Trip, User } = require("../db/models");
 
-exports.fetchProfile = async (ProfileId, next) => {
-  try {
-    const profile = await Profile.findByPk(ProfileId);
-    return profile;
-  } catch (error) {
-    next(error);
-  }
-};
-
 exports.profileUpdate = async (req, res, next) => {
   try {
     const foundProfile = await Profile.findOne({
