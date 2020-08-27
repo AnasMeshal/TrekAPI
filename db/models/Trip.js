@@ -18,7 +18,7 @@ Trip.init(
     },
     details: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: { args: false, msg: "Your details must not be empty" },
     },
   },
   {
