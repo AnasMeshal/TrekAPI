@@ -19,8 +19,6 @@ exports.signup = async (req, res, next) => {
       lastName: newUser.lastName,
       username: newUser.username,
 
-      // role: newUser.role,
-
       exp: Date.now() + JWT_EXPIRATION_MS,
     };
 
