@@ -10,6 +10,7 @@ Profile.init(
     },
     bio: {
       type: DataTypes.STRING,
+      defaultValue: "bio",
     },
   },
   {
