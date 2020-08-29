@@ -12,6 +12,17 @@ exports.fetchProfile = async (req, res, next) => {
   }
 };
 
+exports.fetchOtherProfile = async (req, res, next) => {
+  try {
+    const foundProfile = await Profile.findOne({
+      where: { userId: req.body.userId },
+    });
+    res.json(foundProfile);
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.profileUpdate = async (req, res, next) => {
   try {
     const foundProfile = await Profile.findOne({

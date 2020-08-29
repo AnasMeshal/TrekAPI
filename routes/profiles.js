@@ -6,9 +6,13 @@ const passport = require("passport");
 const {
   fetchProfile,
   profileUpdate,
+  fetchOtherProfile,
 } = require("../controllers/profileController");
 
 router.get("/", passport.authenticate("jwt", { session: false }), fetchProfile);
+
+//should it be post??
+router.post("/", fetchOtherProfile);
 
 router.put(
   "/",
