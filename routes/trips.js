@@ -1,7 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 
-//Controllers
+// Controllers
 const {
   tripList,
   tripCreate,
@@ -12,7 +12,7 @@ const {
 
 const router = express.Router();
 
-//Param
+// Param
 router.param("tripId", async (req, res, next, tripId) => {
   const trip = await fetchTrip(tripId, next);
   if (trip) {
@@ -25,20 +25,20 @@ router.param("tripId", async (req, res, next, tripId) => {
   }
 });
 
-//List
+// List
 router.get("/", tripList);
 
-//Create
+// Create
 router.post("/", passport.authenticate("jwt", { session: false }), tripCreate);
 
-//Update
+// Update
 router.put(
   "/:tripId",
   passport.authenticate("jwt", { session: false }),
   tripUpdate
 );
 
-//Delete
+// Delete
 router.delete(
   "/:tripId",
   passport.authenticate("jwt", { session: false }),
