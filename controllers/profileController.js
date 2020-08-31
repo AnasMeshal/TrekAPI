@@ -8,6 +8,11 @@ exports.fetchProfile = async (req, res, next) => {
   try {
     const foundProfile = await Profile.findOne({
       where: { userId: req.user.id },
+      include: {
+        model: User,
+        as: "user",
+        attributes: ["username", "firstName", "lastName"],
+      },
     });
     res.json(foundProfile);
   } catch (error) {
