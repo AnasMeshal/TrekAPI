@@ -1,15 +1,15 @@
 const express = require("express");
 
-//Database
+// Database
 const db = require("./db");
 
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 
-//Routes
+// Routes
 const userRoutes = require("./routes/users");
-const { localStrategy, jwtStrategy } = require("./middleware/passport");
+const { localStrategy, jwtStrategy } = require("./middleware/passport"); // move this import elsewhere
 const tripRoutes = require("./routes/trips");
 const profileRoutes = require("./routes/profiles");
 
@@ -22,19 +22,19 @@ passport.use(jwtStrategy);
 app.use(cors());
 app.use(bodyParser.json());
 
-//Routers
+// Routers
 app.use(userRoutes);
 app.use("/trips", tripRoutes);
 app.use("/profiles", profileRoutes);
 
-//Not Found Paths
+// Not Found Paths
 app.use((req, res, next) => {
   const error = new Error("Path not found");
   error.status = 404;
   next(error);
 });
 
-//Error Handling Middleware
+// Error Handling Middleware
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.json({ message: err.message || "Internal Server Error" });
