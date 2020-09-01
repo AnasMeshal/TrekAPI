@@ -7,11 +7,11 @@ const { User, Profile } = require("../db/models");
 
 exports.signup = async (req, res, next) => {
   try {
-    const newUser = await User.create(req.body);
-    const profile = await Profile.create({ userId: newUser.id });
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     req.body.password = hashedPassword;
+    const newUser = await User.create(req.body);
+    const profile = await Profile.create({ userId: newUser.id });
 
     const payload = {
       id: newUser.id,
