@@ -7,10 +7,11 @@ const { User, Profile } = require("../db/models");
 
 exports.signup = async (req, res, next) => {
   try {
+    const newUser = await User.create(req.body);
+    const profile = await Profile.create({ userId: newUser.id });
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     req.body.password = hashedPassword;
-    const newUser = await User.create(req.body);
 
     const payload = {
       id: newUser.id,
@@ -18,41 +19,31 @@ exports.signup = async (req, res, next) => {
       firstName: newUser.firstName,
       lastName: newUser.lastName,
       username: newUser.username,
-
+      // TODO find a way to unwrap object while excluding properties easily (iterate)
+      profile: { bio: profile.bio, image: profile.image, id: profile.id },
       exp: Date.now() + JWT_EXPIRATION_MS,
     };
-
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
-
-    req.body.userId = newUser.id;
-
-    // move this line to right after creating a User object
-    // you won't need to use req.body, just pass newUser.id
-    // also, since you're not using the profile object, no
-    // need to store it in a const.
-    const userProfile = await Profile.create({ userId: req.body.userId });
-
     res.status(201).json({ token });
   } catch (error) {
-    // delete this line if you're not using it
-    // res.status(401).json({ message: error.errors[0].message });
+    // sign up errors testing: res.status(401).json({ message: error.errors[0].message });
     next(error);
   }
 };
 
 exports.signin = async (req, res, next) => {
   const { user } = req;
-  // delete this line
-  //const shop = await Shop.findOne({ where: { userId: user.id } });
+  const profile = await Profile.findOne({
+    userId: user.id,
+    attributes: { exclude: ["createdAt", "updatedAt", "userId"] },
+  });
   const payload = {
     id: user.id,
     username: user.username,
     email: user.email,
     firstName: user.firstName,
     lastName: user.lastName,
-    // pass the profile here.
-    role: user.role, // there are no roles in this project
-    //shopSlug: shop ? shop.slug : null, // also no slugs
+    profile: profile,
     exp: Date.now() + JWT_EXPIRATION_MS,
   };
   const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
