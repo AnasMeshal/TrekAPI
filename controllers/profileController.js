@@ -3,7 +3,7 @@ const { Profile, User } = require("../db/models");
 
 exports.fetchProfile = async (profileId, next) => {
   try {
-    profile = await Profile.findByPk(profileId);
+    profile = await Profile.findOne({ where: { userId: profileId } });
     return profile;
   } catch (error) {
     next(error);
