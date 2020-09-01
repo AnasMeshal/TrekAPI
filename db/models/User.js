@@ -42,9 +42,7 @@ User.init(
         msg: "This email already exists",
       },
       validate: {
-        // this message appears when the email is not a valid email, not when it's empty.
-        // maybe change it to "Please enter a valid email."
-        isEmail: { args: true, msg: "Your email must not be empty" },
+        isEmail: { args: true, msg: "Please enter a valid email" },
       },
     },
   },
