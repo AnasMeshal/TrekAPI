@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const JWTStrategy = require("passport-jwt").Strategy;
 const { fromAuthHeaderAsBearerToken } = require("passport-jwt").ExtractJwt;
 
-//Models
+// Models
 const { User } = require("../db/models");
 const { JWT_SECRET } = require("../config/keys");
 
@@ -12,7 +12,7 @@ exports.localStrategy = new LocalStrategy(async (username, password, done) => {
     const user = await User.findOne({ where: { username: username } });
     let passwordsMatch;
 
-    passwordsMatch = user //check user
+    passwordsMatch = user // check user
       ? await bcrypt.compare(password, user.password) // first password from req.body, second password is from the database
       : (passwordsMatch = false);
 
@@ -24,11 +24,11 @@ exports.localStrategy = new LocalStrategy(async (username, password, done) => {
 
 exports.jwtStrategy = new JWTStrategy(
   {
-    jwtFromRequest: fromAuthHeaderAsBearerToken(), //extraction of token
+    jwtFromRequest: fromAuthHeaderAsBearerToken(), // extraction of token
     secretOrKey: JWT_SECRET,
   },
   async (jwtPayload, done) => {
-    //check if token is expired
+    // check if token is expired
     if (Date.now() > jwtPayload.exp) {
       return done(null, false); // this will throw a 401
     }

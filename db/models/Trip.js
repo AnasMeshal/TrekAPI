@@ -13,6 +13,7 @@ Trip.init(
       },
     },
     image: {
+      // TODO
       // i think you guys already have a default image
       // the default image should be set in here, not in FE.
       type: DataTypes.STRING,
