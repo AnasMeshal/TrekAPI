@@ -1,31 +1,27 @@
-//Data
-const { Profile } = require("../db/models");
+// Data
+const { Profile, User } = require("../db/models");
 
-// you don't need an API endpoint (which means a route and controller) for retrieving a Profile object
-// just send it in the sign in token's payload.
-// i wrote this as a comment in the signin controller.
-exports.fetchProfile = async (req, res, next) => {
+exports.fetchProfile = async (profileId, next) => {
   try {
-    const foundProfile = await Profile.findOne({
-      where: { userId: req.user.id },
-      include: {
-        model: User,
-        as: "user",
-        attributes: ["username", "firstName", "lastName"],
-      },
-    });
-    res.json(foundProfile);
+    profile = await Profile.findByPk(profileId);
+    return profile;
   } catch (error) {
     next(error);
   }
 };
 
-exports.fetchOtherProfile = async (req, res, next) => {
+exports.getProfile = async (req, res, next) => {
   try {
-    const foundProfile = await Profile.findOne({
-      where: { userId: req.body.userId },
-    });
-    res.json(foundProfile);
+    const foundProfile = req.profile;
+    const foundUser = await User.findByPk(foundProfile.userId);
+    const filteredProfile = {
+      id: foundProfile.id,
+      image: foundProfile.image,
+      bio: foundProfile.bio,
+      userId: req.profile.userId,
+      username: foundUser.username,
+    };
+    res.json(filteredProfile);
   } catch (error) {
     next(error);
   }
@@ -36,8 +32,6 @@ exports.profileUpdate = async (req, res, next) => {
     const foundProfile = await Profile.findOne({
       where: { userId: req.user.id },
     });
-    // you don't need to store foundProfile in req
-    req.profile = foundProfile;
     if (req.user.id === foundProfile.userId) {
       await req.profile.update(req.body);
       res.status(204).end();

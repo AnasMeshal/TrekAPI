@@ -4,19 +4,25 @@ const passport = require("passport");
 
 // Controller
 const {
-  fetchProfile,
   profileUpdate,
-  fetchOtherProfile,
+  getProfile,
+  fetchProfile,
 } = require("../controllers/profileController");
 
-// delete this
-// more comments in profileController.js
-router.get("/", passport.authenticate("jwt", { session: false }), fetchProfile);
+// Param
+router.param("profileId", async (req, res, next, profileId) => {
+  const profile = await fetchProfile(profileId, next);
+  if (profile) {
+    req.profile = profile;
+    next();
+  } else {
+    const err = new Error("Profile Not Found");
+    err.status = 404;
+    next(err);
+  }
+});
 
-//should it be post??
-// no it should be a get
-// also, profile ID should be a URL parameter
-router.post("/", fetchOtherProfile);
+router.get("/:profileId", getProfile);
 
 router.put(
   "/",
