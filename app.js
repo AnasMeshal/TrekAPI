@@ -12,6 +12,7 @@ const userRoutes = require("./routes/users");
 const { localStrategy, jwtStrategy } = require("./middleware/passport"); // move this import elsewhere
 const tripRoutes = require("./routes/trips");
 const profileRoutes = require("./routes/profiles");
+const listRoute = require("./routes/lists");
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(bodyParser.json());
 app.use(userRoutes);
 app.use("/trips", tripRoutes);
 app.use("/profiles", profileRoutes);
+app.use("/lists", listRoute);
 
 // Not Found Paths
 app.use((req, res, next) => {
@@ -43,7 +45,7 @@ app.use((err, req, res, next) => {
 const run = async () => {
   try {
     await db.sync({
-      // force: true,
+      // alter: true,
     });
     console.log("Connection to the database successful!");
   } catch (error) {
