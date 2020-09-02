@@ -34,7 +34,9 @@ exports.signup = async (req, res, next) => {
 exports.signin = async (req, res, next) => {
   const { user } = req;
   const profile = await Profile.findOne({
-    userId: user.id,
+    where: {
+      userId: user.id,
+    },
     attributes: { exclude: ["createdAt", "updatedAt", "userId"] },
   });
   const payload = {
