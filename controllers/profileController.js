@@ -20,6 +20,8 @@ exports.getProfile = async (req, res, next) => {
       bio: foundProfile.bio,
       userId: req.profile.userId,
       username: foundUser.username,
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
     };
     res.json(filteredProfile);
   } catch (error) {
