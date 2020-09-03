@@ -20,6 +20,12 @@ Trip.init(
       type: DataTypes.STRING,
       allowNull: { args: false, msg: "Your details must not be empty" },
     },
+    latitude: {
+      type: DataTypes.STRING,
+    },
+    longitude: {
+      type: DataTypes.STRING,
+    },
   },
   {
     sequelize: db,
