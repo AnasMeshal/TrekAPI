@@ -28,7 +28,7 @@ router.param("listId", async (req, res, next, listId) => {
 });
 
 // List
-router.get("/", listList);
+router.get("/", passport.authenticate("jwt", { session: false }), listList);
 
 // Create
 router.post("/", passport.authenticate("jwt", { session: false }), listCreate);
