@@ -12,7 +12,7 @@ exports.signup = async (req, res, next) => {
     req.body.password = hashedPassword;
     const newUser = await User.create(req.body);
     const profile = await Profile.create({ userId: newUser.id });
-    await List.create({ name: "Want To Go" });
+    await List.create({ name: "Want To Go", userId: newUser.id });
 
     const payload = {
       id: newUser.id,
