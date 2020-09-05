@@ -13,6 +13,9 @@ exports.fetchList = async (listId, next) => {
 exports.listList = async (req, res, next) => {
   try {
     const lists = await List.findAll({
+      where: {
+        userId: req.user.id,
+      },
       attributes: { exclude: ["createdAt", "updatedAt"] },
       include: [
         {
