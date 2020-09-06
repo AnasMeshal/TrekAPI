@@ -23,11 +23,24 @@ Trip.init(
       type: DataTypes.STRING,
       allowNull: { args: false, msg: "Your details must not be empty" },
     },
+
+    isFavorite: {
+      type: DataTypes.STRING,
+      // TODO HOW TO CONVERT TO BOOLEAN?
+      defaultValue: "F",
+      validate: {
+        isIn: {
+          args: [["T", "F"]],
+          msg: "Trip Must be either a favorite or not",
+        },
+      },
+
     latitude: {
       type: DataTypes.STRING,
     },
     longitude: {
       type: DataTypes.STRING,
+
     },
   },
   {
