@@ -34,13 +34,13 @@ Trip.init(
           msg: "Trip Must be either a favorite or not",
         },
       },
+    },
 
     latitude: {
       type: DataTypes.STRING,
     },
     longitude: {
       type: DataTypes.STRING,
-
     },
   },
   {
