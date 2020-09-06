@@ -23,6 +23,11 @@ exports.tripList = async (req, res, next) => {
 
 exports.tripCreate = async (req, res, next) => {
   try {
+    if (req.file) {
+      req.body.image = `${process.env.PORT ? "https" : "http"}://${req.get(
+        "host"
+      )}/media/${req.file.filename}`;
+    }
     req.body.userId = req.user.id;
     const newTrip = await Trip.create(req.body);
     res.status(201).json(newTrip);
@@ -35,6 +40,11 @@ exports.tripUpdate = async (req, res, next) => {
   try {
     const foundUser = await User.findByPk(req.trip.userId);
     if (req.user.id === foundUser.id) {
+      if (req.file) {
+        req.body.image = `${process.env.PORT ? "https" : "http"}://${req.get(
+          "host"
+        )}/media/${req.file.filename}`;
+      }
       await req.trip.update(req.body);
       res.status(204).end();
     } else {
