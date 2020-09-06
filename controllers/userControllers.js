@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { JWT_EXPIRATION_MS, JWT_SECRET } = require("../config/keys");
 
 // Models
-const { User, Profile } = require("../db/models");
+const { User, Profile, List } = require("../db/models");
 
 exports.signup = async (req, res, next) => {
   try {
@@ -12,6 +12,7 @@ exports.signup = async (req, res, next) => {
     req.body.password = hashedPassword;
     const newUser = await User.create(req.body);
     const profile = await Profile.create({ userId: newUser.id });
+    await List.create({ name: "Want To Go", userId: newUser.id });
 
     const payload = {
       id: newUser.id,
@@ -21,6 +22,7 @@ exports.signup = async (req, res, next) => {
       username: newUser.username,
       // TODO find a way to unwrap object while excluding properties easily (iterate)
       profile: { bio: profile.bio, image: profile.image, id: profile.id },
+      wantToGoList: [],
       exp: Date.now() + JWT_EXPIRATION_MS,
     };
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
