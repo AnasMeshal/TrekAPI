@@ -6,6 +6,7 @@ const db = require("./db");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const path = require("path");
 
 // Routes
 const userRoutes = require("./routes/users");
@@ -26,6 +27,7 @@ app.use(bodyParser.json());
 app.use(userRoutes);
 app.use("/trips", tripRoutes);
 app.use("/profiles", profileRoutes);
+app.use("/media", express.static(path.join(__dirname, "media")));
 
 // Not Found Paths
 app.use((req, res, next) => {
@@ -43,7 +45,7 @@ app.use((err, req, res, next) => {
 const run = async () => {
   try {
     await db.sync({
-      // alter: true,
+      alter: true,
     });
     console.log("Connection to the database successful!");
   } catch (error) {
