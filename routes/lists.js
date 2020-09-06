@@ -11,6 +11,7 @@ const {
   AddTripToList,
   DeleteTripFromList,
 } = require("../controllers/listController");
+const { fetchTrip } = require("../controllers/tripController");
 
 const router = express.Router();
 
@@ -27,8 +28,21 @@ router.param("listId", async (req, res, next, listId) => {
   }
 });
 
+router.param("tripId", async (req, res, next, tripId) => {
+  const trip = await fetchTrip(tripId, next);
+  console.log("trip", trip);
+  if (trip) {
+    req.trip = trip;
+    next();
+  } else {
+    const err = new Error("Trip Not Found");
+    err.status = 404;
+    next(err);
+  }
+});
+
 // List
-router.get("/", passport.authenticate("jwt", { session: false }), listList);
+router.get("/", listList);
 
 // Create
 router.post("/", passport.authenticate("jwt", { session: false }), listCreate);
@@ -55,7 +69,7 @@ router.post(
 );
 
 router.delete(
-  "/:listId/trips",
+  "/:listId/trips/:tripId",
   passport.authenticate("jwt", { session: false }),
   DeleteTripFromList
 );
