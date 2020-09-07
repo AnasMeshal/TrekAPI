@@ -42,6 +42,9 @@ Trip.init(
     longitude: {
       type: DataTypes.STRING,
     },
+    location: {
+      type: DataTypes.STRING,
+    },
   },
   {
     sequelize: db,
