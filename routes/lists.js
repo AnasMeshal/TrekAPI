@@ -30,7 +30,6 @@ router.param("listId", async (req, res, next, listId) => {
 
 router.param("tripId", async (req, res, next, tripId) => {
   const trip = await fetchTrip(tripId, next);
-  console.log("trip", trip);
   if (trip) {
     req.trip = trip;
     next();
