@@ -19,7 +19,7 @@ Profile.init(
       // TODO
       // no default value, allow null instead
       type: DataTypes.STRING,
-      defaultValue: "bio",
+      defaultValue: "Tap Here to Add Your Bio!",
     },
   },
   {
